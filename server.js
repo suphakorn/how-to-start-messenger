@@ -32,10 +32,10 @@ app.post('/webhook/', function (req, res) {
       }, function(error, response, body) {
         try {
           var condition = body.main;
-          sendTextMessage(sender, "วันนี้ อุณหภูมิ " + condition.temp + " °C  " + "ความชื้น " + condition.humidity + " % ที่" + location);
+          sendTextMessage(sender, "อุณหภูมิของวันนี้ " + condition.temp + " °C  " + "ความชื้นตอนนี้ " + condition.humidity + " % ประเทศ " + location);
         } catch(err) {
           console.error('error caught', err);
-          sendTextMessage(sender, "โปรดใส่ชื่อเมืองให้ถูกต้อง(ยกตัวอย่างเช่น ฺBangkok )");
+          sendTextMessage(sender, '' + text.substring(0, 200), token)
         }
       })
 
