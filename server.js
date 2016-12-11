@@ -35,7 +35,7 @@ app.post('/webhook/', function (req, res) {
           sendTextMessage(sender, "อุณหภูมิของวันนี้ " + condition.temp + " °C  " + "ความชื้นตอนนี้ " + condition.humidity + " % ประเทศ " + location);
         } catch(err) {
           console.error('error caught', err);
-          sendTextMessage(sender, 'ข้อความของคุณยาวเกินไปค่ะ กรุณาใส่ชื่อเมืองให้ถูกต้อง ขอบคุณค่ะ' + text.substring(0, 200), token)
+          sendTextMessage(sender, 'ข้อความของคุณยาวเกินไปค่ะ กรุณาใส่ชื่อเมืองให้ถูกต้อง ขอบคุณค่ะ : ' + text.substring(0, 200), token)
         }
       })
 
