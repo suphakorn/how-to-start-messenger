@@ -25,28 +25,30 @@ app.post('/webhook/', function (req, res) {
     if (event.message && event.message.text) {
       let text = event.message.text
       var location = event.message.text
-      var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +location+ '&units=metric&appid=a791874cb147a828805465f9fc5282b5'
+      var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +location+ '&units=metric&appid=ea5272e74853f242bc0efa9fef3dd9f3'
       request({
         url: weatherEndpoint,
         json: true
       }, function(error, response, body) {
         try {
           var condition = body.main;
-          sendTextMessage(sender, "Today is " + condition.temp + "Celsius in " + location);
+          sendTextMessage(sender, "วันนี้ อุณหภูมิ " + condition.temp + " °C  " + "ความชื้น " + condition.humidity + " % ที่" + location);
         } catch(err) {
           console.error('error caught', err);
-          sendTextMessage(sender, "There was an error.");
+          sendTextMessage(sender, "โปรดใส่ชื่อเมืองให้ถูกต้อง(ยกตัวอย่างเช่น ฺBangkok )");
         }
       })
+
       if (text === 'Generic') {
         sendGenericMessage(sender)
         continue
       }
-      sendTextMessage(sender, '' + text.substring(0, 200))
+      var text2 = text.split(' ')
+      sendTextMessage(sender, parseInt(text2[0]) + parseInt(text2[1]) )
     }
     if (event.postback) {
       let text = JSON.stringify(event.postback)
-      sendTextMessage(sender, 'Postback received: ' + text.substring(0, 200), token)
+      sendTextMessage(sender, '' + text.substring(0, 200), token)
       continue
     }
   }
