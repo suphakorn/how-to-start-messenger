@@ -24,20 +24,20 @@ app.post('/webhook/', function (req, res) {
     let sender = event.sender.id
     if (event.message && event.message.text) {
       let text = event.message.text
-      if (text === 'Generic') {
-        sendGenericMessage(sender)
-        continue
-      }
-      sendTextMessage(sender, '' + text.substring(0, 200))
-    }
-    if (event.postback) {
-      let text = JSON.stringify(event.postback)
-      sendTextMessage(sender, 'Postback received: ' + text.substring(0, 200), token)
-      continue
-    }
-  }
-  res.sendStatus(200)
-})
+      var location = event.message.text
+      var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +location+ '&units=metric&appid=a791874cb147a828805465f9fc5282b5'
+      request({
+        url: weatherEndpoint,
+        json: true
+      }, function(error, response, body) {
+        try {
+          var condition = body.main;
+          sendTextMessage(sender, "Today is " + condition.temp + "Celsius in " + location);
+        } catch(err) {
+          console.error('error caught', err);
+          sendTextMessage(sender, "There was an error.");
+        }
+      })
 
 function sendTextMessage (sender, text) {
   let messageData = { text: text }
